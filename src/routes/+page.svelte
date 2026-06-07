@@ -1,17 +1,18 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import styles from "./Page.module.css";
+    import { typographyConfig as cfg } from "$lib/config/typography";
 
     let marqueeEl: HTMLHeadingElement;
 
     onMount(() => {
         const fitText = () => {
-            marqueeEl.style.fontSize = "100px";
+            marqueeEl.style.fontSize = `${cfg.marquee.baseFontSize}px`;
             marqueeEl.style.width = "fit-content";
             const containerWidth = marqueeEl.parentElement!.offsetWidth;
-            const textWidth = marqueeEl.scrollWidth * 0.992;
+            const textWidth = marqueeEl.scrollWidth * cfg.marquee.scrollWidthCorrection;
             const ratio = containerWidth / textWidth;
-            marqueeEl.style.fontSize = `${100 * ratio}px`;
+            marqueeEl.style.fontSize = `${cfg.marquee.baseFontSize * ratio}px`;
             marqueeEl.style.width = "100%";
         };
 
