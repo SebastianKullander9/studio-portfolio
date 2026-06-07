@@ -3,6 +3,7 @@
     import "@fontsource/geist-mono/400.css";
     import "@fontsource/geist-mono/500.css";
     import "../styles/app.css";
+    import styles from "./Layout.module.css";
     import Header from "$lib/components/ui/header/Header.svelte";
 
     let { children } = $props();
@@ -12,5 +13,7 @@
     <link rel="icon" />
 </svelte:head>
 
-<Header />
-{@render children()}
+<div class={styles.layout}>
+    <Header />
+    {@render children()}
+</div>
