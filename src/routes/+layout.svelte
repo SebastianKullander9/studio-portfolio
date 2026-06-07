@@ -1,9 +1,16 @@
 <script lang="ts">
-  let { children } = $props();
+    import "@fontsource/geist-mono/300.css";
+    import "@fontsource/geist-mono/400.css";
+    import "@fontsource/geist-mono/500.css";
+    import "../styles/app.css";
+    import Header from "$lib/components/ui/header/Header.svelte";
+
+    let { children } = $props();
 </script>
 
 <svelte:head>
-  <link rel="icon" />
+    <link rel="icon" />
 </svelte:head>
 
+<Header />
 {@render children()}

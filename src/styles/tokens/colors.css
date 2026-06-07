@@ -1,0 +1,9 @@
+:root {
+    --color-black-matte: #181818;
+    --color-offwhite: #f5f5f0;
+    --color-surface: #222222;
+
+    --color-bg: var(--color-black-matte);
+    --color-text: var(--color-offwhite);
+    --color-surface: var(--color-surface);
+}

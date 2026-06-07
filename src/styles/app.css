@@ -1,0 +1,41 @@
+@import "./index.css";
+
+body {
+    font-family: var(--font-mono);
+    background: var(--color-bg);
+    color: var(--color-text);
+    padding: var(--spacing-page);
+}
+
+a {
+    text-transform: uppercase;
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-normal);
+}
+
+h1,
+h2,
+h3,
+h4 {
+    text-transform: uppercase;
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-normal);
+}
+
+p {
+    font-size: var(--text-base);
+    font-weight: var(--font-light);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-normal);
+}
+
+.display {
+    font-family: var(--font-display);
+    font-size: var(--text-display);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+}
