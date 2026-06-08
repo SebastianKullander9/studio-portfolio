@@ -21,4 +21,5 @@
     --spacing-section: var(--spacing-sm);
     --spacing-stack: var(--spacing-md);
     --spacing-content-gap: var(--spacing-xs);
+    --spacing-top-section: var(--spacing-xl);
 }

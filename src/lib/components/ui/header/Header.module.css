@@ -1,4 +1,8 @@
 .header {
+    margin-bottom: var(--spacing-xl);
+}
+
+.group {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

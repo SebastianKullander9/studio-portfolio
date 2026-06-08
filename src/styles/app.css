@@ -14,20 +14,21 @@ a {
     letter-spacing: var(--tracking-normal);
 }
 
-h1,
-h2,
-h3,
-h4 {
-    text-transform: uppercase;
+p {
     font-size: var(--text-base);
-    font-weight: var(--font-medium);
+    font-weight: var(--font-light);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-normal);
 }
 
-p {
+h1,
+h2,
+h3,
+h4,
+.heading {
+    text-transform: uppercase;
     font-size: var(--text-base);
-    font-weight: var(--font-light);
+    font-weight: var(--font-medium) !important;
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-normal);
 }
@@ -37,4 +38,19 @@ p {
     font-size: var(--text-display);
     font-weight: 600;
     letter-spacing: var(--tracking-tight);
+}
+
+.padding-top-section {
+    padding-top: var(--spacing-top-section);
+}
+
+.grid-inherit {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+}
+
+.grid-inherit-half {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
 }
