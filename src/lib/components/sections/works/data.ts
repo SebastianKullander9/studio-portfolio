@@ -1,47 +1,51 @@
+import asciiMap from "$lib/data/ascii.json";
+
+const img = (path: string) => ({
+    src: `/works/${path}.png`,
+    ascii: asciiMap[path],
+});
+
 export const works = [
     {
         title: "Lewa Bostad",
         kind: "Client",
-        images: ["/works/lewa/img1.png", "/works/lewa/img2.png"],
+        images: [img("lewa/img1"), img("lewa/img2")],
         year: 2026,
     },
     {
         title: "Overengineered",
         kind: "Personal",
-        images: [
-            "/works/overengineered/img1.png",
-            "/works/overengineered/img2.png",
-        ],
+        images: [img("overengineered/img1"), img("overengineered/img2")],
         year: 2025,
     },
     {
         title: "StashBox",
         kind: "Personal",
-        images: ["/works/stashbox/img1.png", "/works/stashbox/img2.png"],
+        images: [img("stashbox/img1"), img("stashbox/img2")],
         year: 2026,
     },
     {
         title: "Concept1",
         kind: "Concept",
-        images: ["/works/concept1/img1.png", "/works/concept1/img2.png"],
+        images: [img("concept1/img1"), img("concept1/img2")],
         year: 2026,
     },
     {
         title: "Concept2",
         kind: "Concept",
-        images: ["/works/concept2/img1.png", "/works/concept2/img2.png"],
+        images: [img("concept2/img1"), img("concept2/img2")],
         year: 2026,
     },
     {
         title: "Concept3",
         kind: "Concept",
-        images: ["/works/concept3/img1.png", "/works/concept3/img2.png"],
+        images: [img("concept3/img1"), img("concept3/img2")],
         year: 2026,
     },
     {
         title: "3D fun",
         kind: "Personal",
-        images: ["/works/fun/img1.png", "/works/fun/img2.png"],
+        images: [img("fun/img1"), img("fun/img2")],
         year: 2025,
     },
 ];
