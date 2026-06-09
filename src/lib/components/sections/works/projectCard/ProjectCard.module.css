@@ -1,10 +1,23 @@
 .grid {
     gap: var(--spacing-md);
+    cursor: pointer;
 }
 
 .image {
     margin-bottom: var(--spacing-md);
     width: 100%;
     display: block;
-    filter: grayscale(100%);
+    filter: grayscale(100%) brightness(45%);
+}
+
+.info {
+    visibility: hidden;
+}
+
+.grid:hover .image {
+    filter: none;
+}
+
+.work:hover .info {
+    visibility: visible;
 }

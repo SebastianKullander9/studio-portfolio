@@ -1,0 +1,8 @@
+.intro {
+    grid-column: span 3;
+    font-size: var(--text-display-sm) !important;
+}
+
+.services > div:first-child {
+    grid-column: 2;
+}
