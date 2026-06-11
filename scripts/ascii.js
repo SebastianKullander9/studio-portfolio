@@ -5,7 +5,7 @@ import path from "node:path";
 const COLS = 80,
     ROWS = 22;
 const CHARS = " .-=+#%@";
-const DIR = "static/works";
+const DIR = "src/lib/assets/works";
 const OUT = "src/lib/data/ascii.json";
 
 const files = await readdir(DIR, { recursive: true, withFileTypes: true });

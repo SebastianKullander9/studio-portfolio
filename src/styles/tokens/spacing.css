@@ -10,16 +10,36 @@
     --space-9: 6rem;
     --space-10: 8rem;
     --space-11: 12rem;
+    --space-12: 16rem;
+    --space-13: 24rem;
+    --space-14: 32rem;
+    --space-15: 48rem;
 
     --spacing-xs: var(--space-1);
     --spacing-sm: var(--space-2);
     --spacing-md: var(--space-3);
     --spacing-lg: var(--space-5);
     --spacing-xl: var(--space-7);
+    --spacing-2xl: var(--space-8);
+    --spacing-3xl: var(--space-9);
+    --spacing-4xl: var(--space-10);
+    --spacing-5xl: var(--space-11);
+    --spacing-6xl: var(--space-12);
+    --spacing-7xl: var(--space-13);
 
     --spacing-page: var(--spacing-md);
-    --spacing-section: var(--spacing-sm);
-    --spacing-stack: var(--spacing-md);
-    --spacing-content-gap: var(--spacing-xs);
-    --spacing-top-section: var(--spacing-xl);
+
+    --spacing-stack-xs: var(--space-1);
+    --spacing-stack-sm: var(--space-2);
+    --spacing-stack-md: var(--space-3);
+    --spacing-stack-lg: var(--space-5);
+    --spacing-stack-xl: var(--space-6);
+
+    --spacing-section-xs: var(--space-7);
+    --spacing-section-sm: var(--space-8);
+    --spacing-section-md: var(--space-9);
+    --spacing-section-lg: var(--space-10);
+    --spacing-section-xl: var(--space-11);
+    --spacing-section-2xl: var(--space-12);
+    --spacing-section-3xl: var(--space-13);
 }

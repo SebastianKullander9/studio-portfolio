@@ -1,9 +1,27 @@
 @import "./index.css";
 
+html,
+body {
+    overflow: auto;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+
+/* Firefox */
+html {
+    scrollbar-width: none;
+}
+
 body {
     font-family: var(--font-mono);
     background: var(--color-bg);
     color: var(--color-text);
+}
+
+.scroll-container::-webkit-scrollbar {
+    display: none;
 }
 
 a {
@@ -19,6 +37,14 @@ p {
     font-weight: var(--font-light);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-normal);
+}
+
+.inactive {
+    color: var(--color-inactive);
+}
+
+.hidden {
+    visibility: hidden;
 }
 
 h1,
@@ -40,8 +66,12 @@ h4,
     letter-spacing: var(--tracking-tight);
 }
 
-.padding-top-section {
-    padding-top: var(--spacing-top-section);
+.section-text-padding {
+    padding-top: var(--spacing-section-lg);
+}
+
+.section-block {
+    padding-top: var(--spacing-stack-xl);
 }
 
 .grid-inherit {
@@ -54,4 +84,9 @@ h4,
 .grid-inherit-half {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-inherit-square {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
 }

@@ -3,14 +3,16 @@
     import styles from "./Services.module.css";
 </script>
 
-<section class="grid-inherit">
+<section
+    class={clsx("grid-inherit section-text-padding section-text-stack")}
+>
     <p class={clsx("display", styles.intro)}>
         I design and build websites for companies that care about the
-        details. Every project starts from your brand and your goals. no
+        details. Every project starts from your brand and your goals. No
         templates, no shortcuts. The result is a site that's fast,
         considered, and built to last.
     </p>
-    <div class={clsx("grid-inherit", styles.services)}>
+    <div class={clsx("grid-inherit section-block", styles.services)}>
         <div>
             <h2>Design & development</h2>
             <p>
@@ -37,7 +39,7 @@
             </p>
         </div>
     </div>
-    <div class="grid-inherit">
+    <div class="grid-inherit section-text-padding">
         <div><h2>Capabilities</h2></div>
         <div>
             <p>Creative Direction</p>
@@ -54,9 +56,10 @@
             <p>CMS Development</p>
         </div>
         <div>
-            <p>Techincal SEO</p>
+            <p>Technical SEO</p>
             <p>Performance Optimization</p>
             <p>Core Web Vitals</p>
+            <p>Accesibility</p>
             <p>Analytics & Tracking</p>
             <p>Hosting & Deployment</p>
             <p>Maintenance & Support</p>

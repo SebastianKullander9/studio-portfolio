@@ -6,9 +6,16 @@
     cursor: pointer;
 }
 
-.frame {
+.frameDesktop {
     position: relative;
     aspect-ratio: 16 / 9;
+    margin-bottom: var(--spacing-md);
+    overflow: hidden;
+}
+
+.frameMobile {
+    position: relative;
+    aspect-ratio: 9 / 16;
     margin-bottom: var(--spacing-md);
     overflow: hidden;
 }

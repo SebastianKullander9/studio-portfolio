@@ -78,6 +78,7 @@ interface AsciiLoadParams extends Partial<typeof DEFAULTS> {
     ascii: string;
     src: string;
     eager?: boolean; // true = fetch immediately, skip viewport waiting
+    onReveal?: () => void;
 }
 
 async function fetchWithProgress(
@@ -108,7 +109,7 @@ export const asciiLoad: Action<HTMLImageElement, AsciiLoadParams> = (
     params,
 ) => {
     const cfg = { ...DEFAULTS, ...params };
-    const { ascii, src, eager = false } = params;
+    const { ascii, src, eager = false, onReveal } = params;
 
     if (!ascii || matchMedia("(prefers-reduced-motion: reduce)").matches) {
         img.src = src;
@@ -273,6 +274,7 @@ export const asciiLoad: Action<HTMLImageElement, AsciiLoadParams> = (
                 ro.disconnect();
                 pre.remove();
                 if (objectUrl) URL.revokeObjectURL(objectUrl);
+                onReveal?.();
             }, cfg.fadeMs);
         };
         img.decode().then(show, show);

@@ -25,6 +25,7 @@
 	},
 	"dependencies": {
 		"@fontsource/geist-mono": "^5.2.8",
+		"@sveltejs/enhanced-img": "^0.10.4",
 		"clsx": "^2.1.1"
 	}
 }
