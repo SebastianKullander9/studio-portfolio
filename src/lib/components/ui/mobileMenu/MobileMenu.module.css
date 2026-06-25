@@ -1,0 +1,89 @@
+.wrapper {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-black-matte);
+    width: calc(
+        (100vw - 2 * var(--spacing-page)) / 4 + var(--spacing-page)
+    );
+    padding-left: calc(var(--spacing-page) / 2);
+    padding-right: var(--spacing-page);
+    z-index: var(--z-mobileMenu);
+}
+
+@media (max-width: 768px) {
+    .wrapper {
+        width: 100vw;
+        padding-left: var(--spacing-page);
+    }
+}
+
+.navigation {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    padding-top: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.content {
+    display: flex;
+    flex: 1;
+    min-height: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: var(--spacing-page);
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+}
+
+.menuItem {
+    text-transform: capitalize;
+    text-align: left;
+    line-height: 0.95;
+    letter-spacing: -0.1rem;
+    font-size: var(--text-display-lg);
+    position: relative;
+}
+
+@keyframes pop {
+    to {
+        opacity: 1;
+    }
+}
+
+.menu > * {
+    opacity: 0;
+    animation: pop 0.01s forwards;
+}
+
+.menu > * {
+    animation-delay: calc(var(--i) * 0.1s);
+}
+
+.menuItem[aria-current="page"] {
+    color: var(--color-inactive);
+}
+
+.menuItem[aria-current="page"] span {
+    position: relative;
+}
+
+.menuItem[aria-current="page"] span::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    height: 3px;
+    background: var(--color-primary);
+    transform: rotate(-4deg);
+}

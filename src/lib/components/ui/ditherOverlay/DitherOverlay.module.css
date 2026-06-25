@@ -1,0 +1,15 @@
+.dither {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    opacity: 0;
+    transition: opacity 240ms ease;
+    background-image: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='4' height='4' shape-rendering='crispEdges'><rect width='2' height='2' x='0' y='0' fill='%23404040'/><rect width='2' height='2' x='2' y='2' fill='%23404040'/></svg>");
+    background-size: 4px 4px;
+    image-rendering: pixelated;
+    mix-blend-mode: difference;
+}
+
+.isActive {
+    opacity: 1;
+}

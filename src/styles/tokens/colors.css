@@ -2,8 +2,9 @@
     --color-black-matte: #181818;
     --color-offwhite: #f5f5f0;
     --color-surface: #222222;
-
     --color-inactive: #7e7e7e;
+    --color-primary: #ffff00;
+    --color-primary-muted: #919161;
 
     --color-bg: var(--color-black-matte);
     --color-text: var(--color-offwhite);

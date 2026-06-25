@@ -1,3 +1,11 @@
+.header nav > a {
+    justify-self: start;
+}
+
+.header nav {
+    align-items: baseline;
+}
+
 .header {
     position: sticky;
     top: var(--spacing-md);
@@ -6,9 +14,46 @@
     width: 100%;
 }
 
+@media (max-width: 768px) {
+    header.header {
+        display: flex;
+    }
+}
+
 .group {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: baseline;
+}
+
+.mobileGroup {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+@media (max-width: 768px) {
+    .hideMobile {
+        display: none;
+    }
+
+    .hideDesktop {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .hideDesktop {
+        display: none;
+    }
+}
+
+.mobileRightGroup {
+    display: flex;
+    flex-direction: row;
+    gap: var(--spacing-lg);
 }

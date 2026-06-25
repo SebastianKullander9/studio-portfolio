@@ -1,0 +1,6 @@
+time {
+    font-size: var(--text-base);
+    font-weight: var(--font-light);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-normal);
+}

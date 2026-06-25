@@ -1,0 +1,21 @@
+.button {
+    padding-block: var(--spacing-sm);
+    padding-inline: var(--spacing-sm);
+    background-color: var(--color-primary);
+    color: var(--color-black-matte);
+    border-radius: 50px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+@media (max-width: 768px) {
+    .button {
+        padding-block: var(--spacing-xs);
+        padding-inline: var(--spacing-sm);
+        font-size: var(--text-sm);
+    }
+}
+
+.isCopied {
+    background-color: var(--color-primary-muted);
+}

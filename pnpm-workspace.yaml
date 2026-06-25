@@ -1,0 +1,3 @@
+allowBuilds:
+  nucleo-pixel: true
+  sharp: false
