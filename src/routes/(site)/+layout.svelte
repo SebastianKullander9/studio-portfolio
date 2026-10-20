@@ -2,7 +2,7 @@
     import "@fontsource/geist-mono/300.css";
     import "@fontsource/geist-mono/400.css";
     import "@fontsource/geist-mono/500.css";
-    import "../styles/app.css";
+    import "../../styles/app.css";
     import styles from "./Layout.module.css";
     import Header from "$lib/components/ui/header/Header.svelte";
     import Contact from "$lib/components/ui/contact/Contact.svelte";

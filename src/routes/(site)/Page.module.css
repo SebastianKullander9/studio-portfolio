@@ -1,0 +1,115 @@
+.page {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+}
+
+.textWrapperDesktop {
+    position: absolute;
+    bottom: 0;
+    left: var(--spacing-page);
+    right: var(--spacing-page);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+}
+
+.textWrapperMobile {
+    grid-column: span 3;
+}
+
+.textWrapperMobile p,
+.eyebrow p {
+    animation: fadeIn 0.6s ease-out both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+}
+
+.marquee {
+    white-space: nowrap;
+    font-family: var(--font-display);
+    line-height: 0.95;
+    margin-top: -0.212em;
+    margin-left: -0.03em;
+    margin-right: -0.05em;
+}
+
+.eyebrow {
+    font-family: var(--font-mono);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-inline: var(--spacing-md);
+}
+
+.mobile {
+    display: none;
+}
+
+.name {
+    margin-inline: calc(-1 * var(--spacing-page));
+}
+
+.ticker {
+    display: block;
+    overflow: hidden;
+}
+
+.track {
+    display: flex;
+    width: max-content;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: 20svh;
+    line-height: 0.85;
+}
+
+.track > span:nth-child(even) {
+    color: var(--color-inactive);
+}
+
+.rightward {
+    animation: rightward 10.5s linear infinite;
+}
+
+.leftward {
+    animation: leftward 16s linear infinite;
+}
+
+@keyframes rightward {
+    from {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes leftward {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 768px) {
+    .desktop {
+        display: none;
+    }
+
+    .mobile {
+        display: block;
+    }
+
+    .eyebrow {
+        flex-direction: column;
+        gap: var(--spacing-xs);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rightward,
+    .leftward {
+        animation: none;
+    }
+}

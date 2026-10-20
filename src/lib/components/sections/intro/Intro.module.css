@@ -1,0 +1,21 @@
+.caption {
+    position: fixed;
+    left: var(--spacing-page);
+    bottom: var(--spacing-page);
+    text-transform: uppercase;
+    font-weight: var(--font-medium);
+}
+
+.touch {
+    display: none;
+}
+
+@media (pointer: coarse) {
+    .touch {
+        display: inline;
+    }
+
+    .mouse {
+        display: none;
+    }
+}

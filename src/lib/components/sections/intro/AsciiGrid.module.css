@@ -1,0 +1,24 @@
+.canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    pointer-events: none;
+    margin: 0;
+    padding: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: "Geist Mono", monospace;
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    line-height: 1;
+    white-space: pre;
+    user-select: none;
+}
+
+.label {
+}
+
+.dim {
+    color: var(--color-inactive);
+}
