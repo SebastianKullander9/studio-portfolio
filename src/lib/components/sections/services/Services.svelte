@@ -1,10 +1,13 @@
 <script>
     import clsx from "clsx";
     import styles from "./Services.module.css";
+    import SecondaryButton from "$lib/components/ui/buttons/secondaryButton/SecondaryButton.svelte";
+
+    const btnLabel = "READ MORE";
 </script>
 
 <section
-    class={clsx("grid-inherit section-text-padding section-text-stack")}
+    class={clsx("grid-inherit section-text-padding section-text-stack", styles.section)}
 >
     <p class={clsx("display", styles.intro)}>
         I design and build websites for companies that care about the
@@ -20,6 +23,7 @@
                 websites with a focus on brand, clarity, and performance.
                 Modern tooling, no off-the-shelf templates.
             </p>
+            <SecondaryButton label={btnLabel} />
         </div>
         <div>
             <h2>Performance optimization</h2>
@@ -28,6 +32,7 @@
                 websites — image handling, load times, rendering, Core Web
                 Vitals — so your site feels instant on any device.
             </p>
+            <SecondaryButton label={btnLabel} />
         </div>
         <div>
             <h2>Care & maintenance</h2>
@@ -37,9 +42,10 @@
                 improvements — so your site stays fast, secure, and
                 current.
             </p>
+            <SecondaryButton label={btnLabel} />
         </div>
     </div>
-    <div class="grid-inherit section-text-padding">
+    <div class={clsx("grid-inherit section-text-padding", styles.capabilities)}>
         <div><h2>Capabilities</h2></div>
         <div>
             <p>Creative Direction</p>

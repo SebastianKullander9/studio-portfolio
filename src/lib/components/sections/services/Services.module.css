@@ -6,3 +6,48 @@
 .services > div:first-child {
     grid-column: 2;
 }
+
+.services > div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.services > div > p {
+    padding-bottom: var(--spacing-md);
+}
+
+.services > div > button {
+    margin-top: auto;
+}
+
+@media (max-width: 768px) {
+    section.section {
+        padding-top: 0;
+    }
+
+    .intro {
+        grid-column: 1 / -1;
+    }
+
+    .services {
+        row-gap: var(--spacing-xl);
+    }
+
+    .services > div,
+    .services > div:first-child {
+        grid-column: 1 / -1;
+    }
+
+    div.capabilities {
+        padding-top: var(--spacing-stack-xl);
+    }
+
+    .capabilities > div:first-child {
+        grid-column: 1 / -1;
+    }
+
+    .capabilities > div:not(:first-child) {
+        grid-column: span 2;
+    }
+}

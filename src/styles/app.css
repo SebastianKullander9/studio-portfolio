@@ -1,11 +1,6 @@
 @import "./index.css";
 
-html,
-body {
-    overflow: auto;
-}
-
-body::-webkit-scrollbar {
+html::-webkit-scrollbar {
     display: none;
 }
 
