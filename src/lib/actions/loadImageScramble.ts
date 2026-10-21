@@ -5,19 +5,14 @@ import type { Action } from "svelte/action";
    CONFIG — all tuning knobs, with what they actually do
    ================================================================ */
 
-/** Brightness ramp, darkest → densest. Must match scripts/ascii.js. */
-const CHARS = " .:-=+*#%@";
+/** Brightness ramp, darkest → densest. */
+const CHARS = " .·:-=+*OSE";
 
 /** Index of the resting character — the floor cells settle at and
  *  that light cells never leave. */
 const DOT = CHARS.indexOf(".");
 
 const DEFAULTS = {
-    /** Grid resolution. MUST match COLS/ROWS in scripts/ascii.js;
-     *  cols:rows (×charRatio) should match the image aspect. */
-    cols: 80,
-    rows: 22,
-
     /** How often (ms) blinking/growing cells re-roll their shimmer. */
     flickerMs: 30,
 
@@ -61,9 +56,6 @@ const DEFAULTS = {
     /** Crossfade duration (ms), ASCII out / image in. */
     fadeMs: 400,
 
-    /** Glyph width ÷ font-size for the mono font. */
-    charRatio: 0.6,
-
     /** How close (progress units) displayed must get to the end
      *  before revealing — exponential easing never quite arrives. */
     finishEpsilon: 0.005,
@@ -74,8 +66,10 @@ const DEFAULTS = {
 
 /* ================================================================ */
 
+export type Lightness = { w: number; h: number; data: string };
+
 interface AsciiLoadParams extends Partial<typeof DEFAULTS> {
-    ascii: string;
+    ascii: Lightness | null;
     src: string;
     eager?: boolean; // true = fetch immediately, skip viewport waiting
     onReveal?: () => void;
@@ -90,7 +84,7 @@ async function fetchWithProgress(
 
     const total = Number(res.headers.get("Content-Length")) || 0;
     const reader = res.body.getReader();
-    const chunks: Uint8Array[] = [];
+    const chunks: BlobPart[] = [];
     let received = 0;
 
     while (true) {
@@ -124,61 +118,136 @@ export const asciiLoad: Action<HTMLImageElement, AsciiLoadParams> = (
        extends target to FINAL so late cells finish their growth. */
     const FINAL = cfg.populate + cfg.blink + cfg.spread + 1;
 
+    // --- state -----------------------------------------------------
+    let frame = 0;
+    let start: number | null = null;
+    let lastShuffle = 0;
+    let target = 0;
+    let displayed = 0;
+    let objectUrl: string | null = null;
+    let failed = false;
+    let done = false;
+    let cleanupTimer: ReturnType<typeof setTimeout> | undefined;
+
     const beat = cfg.delayMs + Math.random() * cfg.jitterMs;
     const ease =
         cfg.easing *
         (1 - cfg.easingSpread + Math.random() * cfg.easingSpread * 2);
 
-    const totalCells = cfg.cols * cfg.rows;
-
-    const asciiIdx = Uint8Array.from(ascii, (ch) =>
-        Math.max(0, CHARS.indexOf(ch)),
-    );
-
+    let cols = 0;
+    let rows = 0;
+    let totalCells = 0;
+    let asciiIdx = new Uint8Array(0);
     /** When each cell blinks into existence. */
-    const appearAt = Float32Array.from(
-        { length: totalCells },
-        () => Math.random() * cfg.populate,
-    );
-
+    let appearAt = new Float32Array(0);
     /** When each dense cell starts climbing (always after its blink). */
-    const growAt = Float32Array.from(
-        { length: totalCells },
-        (_, i) => appearAt[i] + cfg.blink + Math.random() * cfg.spread,
-    );
-
+    let growAt = new Float32Array(0);
     /** Random bytes per cell, re-rolled every flickerMs — drive both
      *  the blink-in flicker and the growth shimmer. */
-    const randomCells = new Uint8Array(totalCells);
+    let randomCells = new Uint8Array(0);
+
     function reshuffle() {
         for (let i = 0; i < totalCells; i++) {
             randomCells[i] = (Math.random() * 256) | 0;
         }
     }
-    reshuffle();
 
     // --- overlay ---------------------------------------------------
+    /* Same cell as the intro's AsciiGrid, so every ASCII effect on the
+       site shares one character size. */
     const pre = document.createElement("pre");
     pre.setAttribute("aria-hidden", "true");
     Object.assign(pre.style, {
         position: "absolute",
-        inset: "0",
         margin: "0",
-        overflow: "hidden",
         pointerEvents: "none",
         fontFamily: "var(--font-mono)",
+        fontSize: "var(--text-base)",
+        fontWeight: "var(--font-medium)",
+        lineHeight: "1",
+        whiteSpace: "pre",
     });
     img.style.opacity = "0";
     img.parentElement?.appendChild(pre); // parent must be position: relative
 
-    function fit() {
-        const { width, height } = img.getBoundingClientRect();
-        pre.style.fontSize = `${width / (cfg.cols * cfg.charRatio)}px`;
-        pre.style.lineHeight = `${height / cfg.rows}px`;
+    function measureCell() {
+        const probe = document.createElement("span");
+        probe.style.display = "inline-block";
+        probe.style.letterSpacing = "0";
+        probe.textContent = "0";
+        pre.appendChild(probe);
+        const { width, height } = probe.getBoundingClientRect();
+        probe.remove();
+        return { width, height };
     }
-    fit();
-    const ro = new ResizeObserver(fit);
+
+    /** Lightness (0–15) at a point of the frame, cropped like
+     *  object-fit: cover. u, v run 0..1 across the frame. */
+    function sample(u: number, v: number, frameAspect: number) {
+        const { w, h, data } = ascii!;
+        let x0 = 0, y0 = 0, sw = w, sh = h;
+        if (w / h > frameAspect) {
+            sw = h * frameAspect;
+            x0 = (w - sw) / 2;
+        } else {
+            sh = w / frameAspect;
+            y0 = (h - sh) / 2;
+        }
+        const x = Math.min(w - 1, Math.floor(x0 + u * sw));
+        const y = Math.min(h - 1, Math.floor(y0 + v * sh));
+        return parseInt(data[y * w + x], 16);
+    }
+
+    /* Columns fill the width exactly: the nearest whole count, with
+       letter-spacing absorbing the remainder. Rows overfill and are
+       centred, the frame clips the partial ones. Rebuilds the per-cell
+       timeline for that grid. */
+    function layout() {
+        const { width, height } = img.getBoundingClientRect();
+        const cell = measureCell();
+        if (!width || !height || !cell.width) return;
+
+        cols = Math.max(1, Math.round(width / cell.width));
+        rows = Math.ceil(height / cell.height);
+        totalCells = cols * rows;
+        const pitch = width / cols;
+        const offY = (height - rows * cell.height) / 2;
+        pre.style.letterSpacing = `${pitch - cell.width}px`;
+        pre.style.left = "0";
+        pre.style.top = `${offY}px`;
+
+        const aspect = width / height;
+        asciiIdx = Uint8Array.from({ length: totalCells }, (_, i) => {
+            const l = sample(
+                ((i % cols) + 0.5) / cols,
+                Math.max(
+                    0,
+                    (offY + (Math.floor(i / cols) + 0.5) * cell.height) / height,
+                ),
+                aspect,
+            );
+            return Math.round((l / 15) * (CHARS.length - 1));
+        });
+        appearAt = Float32Array.from(
+            { length: totalCells },
+            () => Math.random() * cfg.populate,
+        );
+        growAt = Float32Array.from(
+            { length: totalCells },
+            (_, i) => appearAt[i] + cfg.blink + Math.random() * cfg.spread,
+        );
+        randomCells = new Uint8Array(totalCells);
+        reshuffle();
+    }
+    layout();
+    const ro = new ResizeObserver(() => {
+        layout();
+        if (!done) render(displayed);
+    });
     ro.observe(img);
+    document.fonts.ready.then(() => {
+        if (!done) layout();
+    });
 
     // --- rendering -------------------------------------------------
     function render(progress: number) {
@@ -215,23 +284,14 @@ export const asciiLoad: Action<HTMLImageElement, AsciiLoadParams> = (
                 }
             }
 
-            if ((i + 1) % cfg.cols === 0) out += "\n";
+            if ((i + 1) % cols === 0) out += "\n";
         }
         pre.textContent = out;
     }
 
     render(0); // blank frame for offscreen/lazy cards
 
-    // --- state -----------------------------------------------------
-    let frame = 0;
-    let start: number | null = null;
-    let lastShuffle = 0;
-    let target = 0;
-    let displayed = 0;
-    let objectUrl: string | null = null;
-    let failed = false;
-    let done = false;
-    let cleanupTimer: ReturnType<typeof setTimeout> | undefined;
+    // --- loop ------------------------------------------------------
 
     function loop(t: number) {
         if (done) return;

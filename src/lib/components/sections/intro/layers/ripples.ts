@@ -11,7 +11,7 @@ type Options = {
 type Drop = { x: number; y: number; t: number };
 
 export function ripples({
-    ramp = " .:*SEBATIN",
+    ramp = " .:!#SEBATIN",
     speed = 4,
     thickness = 1,
     lifetime = 3,

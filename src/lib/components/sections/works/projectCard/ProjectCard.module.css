@@ -33,10 +33,44 @@
     visibility: hidden;
 }
 
-.grid:hover .image {
-    filter: none;
+@media (hover: hover) {
+    .grid:hover .image {
+        filter: none;
+    }
+
+    .work:hover .info {
+        visibility: visible;
+    }
 }
 
-.work:hover .info {
-    visibility: visible;
+@media (hover: none) {
+    .info {
+        visibility: visible;
+        color: var(--color-inactive);
+        transition: color 0.3s;
+    }
+
+    .work[data-focused] .image {
+        filter: none;
+    }
+
+    .work[data-focused] .info {
+        color: var(--color-text);
+    }
+}
+
+@media (max-width: 768px) {
+    .grid.formatDesktop {
+        grid-template-columns: 1fr;
+    }
+
+    .grid.formatMobile {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (hover: none) and (max-width: 768px) {
+    .formatMobile .work:nth-child(even) .info {
+        display: none;
+    }
 }

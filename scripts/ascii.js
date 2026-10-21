@@ -2,9 +2,7 @@ import sharp from "sharp";
 import { readdir, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 
-const COLS = 80,
-    ROWS = 22;
-const CHARS = " .-=+#%@";
+const SIZE = 80;
 const DIR = "src/lib/assets/works";
 const OUT = "src/lib/data/ascii.json";
 
@@ -20,17 +18,21 @@ for (const f of files) {
         .replace(/\\/g, "/")
         .replace(/\.[^.]+$/, ""); // "lewa/img1"
 
-    const { data } = await sharp(full)
-        .resize(COLS, ROWS, { fit: "cover" })
-        .grayscale()
+    const { data, info } = await sharp(full)
+        .resize(SIZE, SIZE, { fit: "inside" })
+        .flatten()
+        .greyscale()
+        .extractChannel(0)
         .raw()
         .toBuffer({ resolveWithObject: true });
 
-    out[key] = [...data]
-        .map((b) => CHARS[Math.floor((b / 255) * (CHARS.length - 1))])
-        .join("");
+    out[key] = {
+        w: info.width,
+        h: info.height,
+        data: [...data].map((b) => (b >> 4).toString(16)).join(""),
+    };
 }
 
 await mkdir(path.dirname(OUT), { recursive: true });
 await writeFile(OUT, JSON.stringify(out));
-console.log(`Generated ASCII for ${Object.keys(out).length} images`);
+console.log(`Generated lightness maps for ${Object.keys(out).length} images`);

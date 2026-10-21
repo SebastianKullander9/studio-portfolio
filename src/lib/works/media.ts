@@ -1,4 +1,7 @@
 import asciiData from "$lib/data/ascii.json";
+import type { Lightness } from "$lib/actions/loadImageScramble";
+
+const lightness = asciiData as Record<string, Lightness>;
 
 const images = import.meta.glob<string>(
     "$lib/assets/works/**/*.{avif,webp,jpg,png}",
@@ -20,8 +23,13 @@ function stripExt(p: string): string {
 }
 
 export type MediaItem =
-    | { type: "image"; src: string; ascii: string }
-    | { type: "video"; src: string; ascii: string; pngSrc: string };
+    | { type: "image"; src: string; ascii: Lightness | null }
+    | {
+          type: "video";
+          src: string;
+          ascii: Lightness | null;
+          pngSrc: string;
+      };
 
 export function mediaFor(
     slug: string,
@@ -42,8 +50,8 @@ export function mediaFor(
         const pngEntry = scopedImgs.find(([ip]) => stripExt(ip) === base);
         if (pngEntry) claimedByVideo.add(pngEntry[0]);
         const ascii = pngEntry
-            ? ((asciiData as Record<string, string>)[asciiKey(pngEntry[0])] ?? "")
-            : "";
+            ? (lightness[asciiKey(pngEntry[0])] ?? null)
+            : null;
         return {
             path: vp,
             item: {
@@ -62,8 +70,7 @@ export function mediaFor(
             item: {
                 type: "image",
                 src,
-                ascii:
-                    (asciiData as Record<string, string>)[asciiKey(p)] ?? "",
+                ascii: lightness[asciiKey(p)] ?? null,
             } as MediaItem,
         }));
 

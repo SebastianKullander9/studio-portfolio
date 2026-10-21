@@ -2,6 +2,7 @@
     import styles from "./ProjectCard.module.css";
     import clsx from "clsx";
     import { asciiLoad } from "$lib/actions/loadImageScramble";
+    import { scrollFocus } from "$lib/actions/scrollFocus";
     import type { MediaItem } from "$lib/works/media";
 
     let {
@@ -40,10 +41,12 @@
     class={clsx(styles.grid, {
         "grid-inherit-square": format === "mobile",
         "grid-inherit-half": format === "desktop",
+        [styles.formatMobile]: format === "mobile",
+        [styles.formatDesktop]: format === "desktop",
     })}
 >
     {#each media as item, i}
-        <div class={styles.work}>
+        <div class={styles.work} use:scrollFocus>
             <div
                 class={format === "desktop"
                     ? styles.frameDesktop
